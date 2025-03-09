@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Master</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/main.css') }}"
+    />
+    <style>
+      /* Added Basic Styling */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="content">
+      {% if tasks|length < 1 %}
+      <h4>There are no tasks.Create one below !</h4>
+      {% else %}
+      <h1>Task Master</h1>
+      <table>
+        <tr>
+          <th>Task</th>
+          <th>Added On</th>
+          <th>Actions</th>
+        </tr>
+        {% for task in tasks %}
+        <tr>
+          <td>{{ task.content }}</td>
+          <td>{{ task.date_created.strftime('%Y-%m-%d %H:%M') }}</td>
+          <td>
+            <a href="/update/{{task.id}}">Update</a> |
+            <a href="/delete/{{task.id}}">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% endif %}
+    </div>
+
+    <form action="/" method="post">
+      <input
+        type="text"
+        name="content"
+        id="content"
+        placeholder="Enter a new task"
+      />
+      <input type="submit" value="Add Task" />
+    </form>
+  </body>
+</html>
